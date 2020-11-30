@@ -9,7 +9,7 @@ The library is currently at the _alpha_ stage of development.  It has many rough
 
 ## Example
 
-To get a feel for what it's like to use the library, let's consider a simple example. Here is an [implementation](cuda-fixnum/src/functions/paillier_encrypt.cu) of encryption in the [Paillier cryptosystem](https://en.wikipedia.org/wiki/Paillier_cryptosystem):
+To get a feel for what it's like to use the library, let's consider a simple example. Here is an [implementation](src/functions/paillier_encrypt.cu) of encryption in the [Paillier cryptosystem](https://en.wikipedia.org/wiki/Paillier_cryptosystem):
 ```cuda
 #include "functions/quorem_preinv.cu"
 #include "functions/modexp.cu"
@@ -63,9 +63,9 @@ public:
     }
 };
 ```
-A few features will be common to most user-defined functions such as the one above: They will be template function objects that rely on a `fixnum`, which will be instantiated with one of the fixnum arithmetic implemententations provided, usually the [`warp_fixnum`](cuda-fixnum/src/fixnum/warp_fixnum.cu).  Functions in the `fixnum` class are static and (usually) return their results in the first one or two parameters. Complicated functions that might perform precomputation, such as [modular exponentiation (`modexp`)](cuda-fixnum/src/functions/modexp.cu) and [quotient & remainder with precomputed inverse (`quorem_preinv`)](cuda-fixnum/src/functions/quorem_preinv.cu) are instance variables in the object that are initialised in the constructor.
+A few features will be common to most user-defined functions such as the one above: They will be template function objects that rely on a `fixnum`, which will be instantiated with one of the fixnum arithmetic implemententations provided, usually the [`warp_fixnum`](src/fixnum/warp_fixnum.cu).  Functions in the `fixnum` class are static and (usually) return their results in the first one or two parameters. Complicated functions that might perform precomputation, such as [modular exponentiation (`modexp`)](src/functions/modexp.cu) and [quotient & remainder with precomputed inverse (`quorem_preinv`)](src/functions/quorem_preinv.cu) are instance variables in the object that are initialised in the constructor.
 
-Although it is not (yet) the focus of this project to help optimise host-device communication, the [`fixnum_array`](cuda-fixnum/src/array/fixnum_array.h) facility is provided to make it easy to apply user-defined functions to data originating in the host. Using `fixnum_array` will often look something like this:
+Although it is not (yet) the focus of this project to help optimise host-device communication, the [`fixnum_array`](src/array/fixnum_array.h) facility is provided to make it easy to apply user-defined functions to data originating in the host. Using `fixnum_array` will often look something like this:
 ```C++
 using namespace cuFIXNUM;
 
